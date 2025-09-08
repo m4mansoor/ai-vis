@@ -1,574 +1,536 @@
-// DOM elements
-const progressFill = document.querySelector('.progress-fill');
-const navLinks = document.querySelectorAll('.nav-link');
-const statNumbers = document.querySelectorAll('.stat-number');
-const heroCtaButton = document.querySelector('.hero-cta');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Enhanced Vehicle Inspection & Cleaning System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">AI-VIS</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#hero" class="nav-link">Overview</a></li>
+                <li><a href="#benefits" class="nav-link">Benefits</a></li>
+                <li><a href="#ip-ownership" class="nav-link">IP Ownership</a></li>
+                <li><a href="#technical" class="nav-link">Technical</a></li>
+                <li><a href="#gcc" class="nav-link">GCC Optimization</a></li>
+                <li><a href="#investment" class="nav-link">Investment</a></li>
+                <li><a href="#team-options" class="nav-link">Team Options</a></li>
+                <li><a href="#cta" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </nav>
 
-// Smooth scrolling navigation
-function initNavigation() {
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute('href');
-      const targetSection = document.querySelector(targetId);
-      
-      if (targetSection) {
-        const navHeight = document.querySelector('.navbar').offsetHeight;
-        const offsetTop = targetSection.offsetTop - navHeight - 20;
-        
-        window.scrollTo({
-          top: Math.max(0, offsetTop),
-          behavior: 'smooth'
-        });
-        
-        // Update active state immediately
-        navLinks.forEach(navLink => navLink.classList.remove('active'));
-        link.classList.add('active');
-      }
-    });
-  });
-}
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-main">AI-Enhanced Vehicle</span>
+                <span class="title-accent">Inspection & Cleaning System</span>
+            </h1>
+            <p class="hero-subtitle">Complete Automation Solution for Premium Vehicle Service Centers</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-unit">%</span>
+                    <span class="stat-label">Legal Protection</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="60">0</span>
+                    <span class="stat-unit">%</span>
+                    <span class="stat-label">Cost Reduction</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="0">0</span>
+                    <span class="stat-unit"></span>
+                    <span class="stat-label">False Claims</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="90">0</span>
+                    <span class="stat-unit">%+</span>
+                    <span class="stat-label">Accuracy</span>
+                </div>
+            </div>
+            <button class="cta-button hero-cta">Explore Solution</button>
+        </div>
+    </section>
 
-// Progress bar and active navigation updates
-function updateProgressAndNav() {
-  const scrollTop = window.pageYOffset;
-  const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const scrollPercent = Math.min(100, (scrollTop / documentHeight) * 100);
-  
-  // Update progress bar
-  if (progressFill) {
-    progressFill.style.width = scrollPercent + '%';
-  }
-  
-  // Update active navigation link
-  const sections = document.querySelectorAll('section[id]');
-  let currentSection = '';
-  
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop - 150;
-    const sectionHeight = section.offsetHeight;
-    
-    if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
-      currentSection = section.getAttribute('id');
-    }
-  });
-  
-  // Remove active class from all nav links
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-  });
-  
-  // Add active class to current section nav link
-  if (currentSection) {
-    const activeLink = document.querySelector(`.nav-link[href="#${currentSection}"]`);
-    if (activeLink) {
-      activeLink.classList.add('active');
-    }
-  }
-}
+    <!-- Executive Summary -->
+    <section id="benefits" class="benefits-section">
+        <div class="container">
+            <h2 class="section-title">Revolutionary Vehicle Service Technology</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔒</div>
+                    <h3>100% Legal Protection</h3>
+                    <p>Tamper-proof before/after damage documentation with blockchain-level security</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>60% Cleaning Cost Reduction</h3>
+                    <p>AI-driven chemical dosage optimization based on real-time dirt analysis</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚫</div>
+                    <h3>Zero False Claims</h3>
+                    <p>Immutable digital evidence protects against customer disputes</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏆</div>
+                    <h3>Premium Brand Positioning</h3>
+                    <p>First-to-market AI automation in GCC vehicle services</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-// Animated counter function
-function animateCounter(element, target, duration = 2000) {
-  const start = 0;
-  const increment = target / (duration / 16);
-  let current = start;
-  
-  const timer = setInterval(() => {
-    current += increment;
-    if (current >= target) {
-      current = target;
-      clearInterval(timer);
-    }
-    element.textContent = Math.floor(current);
-  }, 16);
-}
-
-// Initialize counters when hero section is visible
-function initCounters() {
-  const heroSection = document.querySelector('.hero-section');
-  let countersAnimated = false;
-  
-  if (!heroSection) return;
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !countersAnimated) {
-        countersAnimated = true;
-        
-        statNumbers.forEach(stat => {
-          const target = parseInt(stat.dataset.target);
-          if (!isNaN(target)) {
-            animateCounter(stat, target);
-          }
-        });
-      }
-    });
-  }, {
-    threshold: 0.3
-  });
-  
-  observer.observe(heroSection);
-}
-
-// Global toggle function for milestones (called from HTML onclick)
-function toggleMilestones(phaseId) {
-  const toggle = document.querySelector(`[onclick*="${phaseId}"]`);
-  const content = document.getElementById(`${phaseId}-milestones`);
-  
-  if (toggle && content) {
-    const isActive = content.classList.contains('active');
-    
-    // Toggle classes
-    toggle.classList.toggle('active');
-    content.classList.toggle('active');
-    
-    // Update icon rotation
-    const icon = toggle.querySelector('.toggle-icon');
-    if (icon) {
-      icon.style.transform = isActive ? 'rotate(0deg)' : 'rotate(180deg)';
-    }
-  }
-}
-
-// Initialize milestone toggles with proper event handling
-function initMilestoneToggles() {
-  const toggles = document.querySelectorAll('.milestones-toggle');
-  
-  toggles.forEach(toggle => {
-    // Remove existing onclick to avoid conflicts
-    toggle.removeAttribute('onclick');
-    
-    toggle.addEventListener('click', () => {
-      // Extract phase ID from the toggle's data or nearest phase card
-      const phaseCard = toggle.closest('.phase-card');
-      let phaseId = '';
-      
-      if (phaseCard) {
-        const phaseTitle = phaseCard.querySelector('h3').textContent;
-        if (phaseTitle.includes('Phase 1')) {
-          phaseId = 'phase1';
-        } else if (phaseTitle.includes('Phase 2')) {
-          phaseId = 'phase2';
-        }
-      }
-      
-      if (phaseId) {
-        toggleMilestones(phaseId);
-      }
-    });
-  });
-}
-
-// Intersection Observer for scroll animations
-function initScrollAnimations() {
-  const animateOnScroll = document.querySelectorAll('.benefit-card, .ip-category, .gcc-feature, .investment-stat, .metric-item, .team-option-card, .benefit-badge');
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
-  
-  animateOnScroll.forEach(element => {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(30px)';
-    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(element);
-  });
-}
-
-// Hero CTA button functionality
-function initHeroCTA() {
-  if (heroCtaButton) {
-    heroCtaButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      const benefitsSection = document.querySelector('#benefits');
-      if (benefitsSection) {
-        const navHeight = document.querySelector('.navbar').offsetHeight;
-        const offsetTop = benefitsSection.offsetTop - navHeight - 20;
-        
-        window.scrollTo({
-          top: Math.max(0, offsetTop),
-          behavior: 'smooth'
-        });
-      }
-    });
-  }
-}
-
-// CTA buttons functionality
-function initCTAButtons() {
-  const ctaButtons = document.querySelectorAll('.cta-button');
-  
-  ctaButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      const buttonText = button.textContent.trim();
-      
-      if (buttonText.includes('Schedule Consultation')) {
-        e.preventDefault();
-        // Add visual feedback
-        const originalText = button.textContent;
-        button.textContent = 'Scheduling...';
-        button.style.opacity = '0.7';
-        
-        setTimeout(() => {
-          alert('Thank you for your interest! A consultation representative will contact you within 24 hours.');
-          button.textContent = originalText;
-          button.style.opacity = '1';
-        }, 1000);
-        
-      } else if (buttonText.includes('Download Full Proposal')) {
-        e.preventDefault();
-        // Add visual feedback
-        const originalText = button.textContent;
-        button.textContent = 'Downloading...';
-        button.style.opacity = '0.7';
-        
-        setTimeout(() => {
-          alert('Full proposal PDF download initiated. Please check your downloads folder.');
-          button.textContent = originalText;
-          button.style.opacity = '1';
-        }, 1000);
-      }
-    });
-  });
-}
-
-// Team options cards interaction
-function initTeamOptionsInteraction() {
-  const teamOptionCards = document.querySelectorAll('.team-option-card');
-  
-  teamOptionCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      // Add subtle glow effect on hover
-      card.style.boxShadow = '0 20px 40px rgba(0, 212, 255, 0.3)';
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      // Remove glow effect
-      card.style.boxShadow = '';
-    });
-    
-    // Add click interaction for better mobile experience
-    card.addEventListener('click', () => {
-      // Toggle active state for mobile users
-      const isActive = card.classList.contains('active');
-      
-      // Remove active from all cards
-      teamOptionCards.forEach(c => c.classList.remove('active'));
-      
-      // Add active to clicked card if it wasn't already active
-      if (!isActive) {
-        card.classList.add('active');
-      }
-    });
-  });
-}
-
-// Parallax effect for hero background
-function initParallaxEffect() {
-  const heroBackground = document.querySelector('.hero-background');
-  
-  if (heroBackground) {
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const parallax = scrolled * 0.3;
-      heroBackground.style.transform = `translateY(${parallax}px)`;
-    });
-  }
-}
-
-// Enhanced card hover effects
-function initCardHoverEffects() {
-  const cards = document.querySelectorAll('.benefit-card, .gcc-feature, .investment-stat');
-  
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      if (!card.style.transform.includes('translateY')) {
-        card.style.transform = 'translateY(-8px)';
-      }
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0)';
-    });
-  });
-}
-
-// Scroll-triggered number animations for investment section
-function initInvestmentCounters() {
-  const investmentNumbers = document.querySelectorAll('.investment-number');
-  let investmentAnimated = false;
-  
-  const investmentSection = document.querySelector('.investment-section');
-  
-  if (!investmentSection) return;
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !investmentAnimated) {
-        investmentAnimated = true;
-        
-        investmentNumbers.forEach(number => {
-          const text = number.textContent.trim();
-          let target = 0;
-          
-          // Extract numeric value from text
-          const numMatch = text.match(/[\d,]+/);
-          if (numMatch) {
-            target = parseInt(numMatch[0].replace(/,/g, ''));
-          }
-          
-          if (target > 0) {
-            // Store original content for restoration
-            const originalContent = text;
+    <!-- IP Ownership Section -->
+    <section id="ip-ownership" class="ip-section">
+        <div class="container">
+            <h2 class="section-title">🏆 Exclusive IP Ownership & Competitive Advantage</h2>
+            <div class="ip-intro">
+                <h3>Complete Intellectual Property Transfer</h3>
+                <p class="ip-subtitle">Your Investment = Your Exclusive Technology</p>
+                <p>When you partner with us, you're not just purchasing a service—you're acquiring complete ownership of a proprietary technology stack that becomes your exclusive competitive moat in the GCC market.</p>
+            </div>
             
-            // Animate from 0 to target
-            let current = 0;
-            const increment = target / 100;
-            const timer = setInterval(() => {
-              current += increment;
-              if (current >= target) {
-                current = target;
-                clearInterval(timer);
-                number.textContent = originalContent; // Restore original formatting
-              } else {
-                number.textContent = Math.floor(current);
-              }
-            }, 20);
-          }
-        });
-      }
-    });
-  }, {
-    threshold: 0.3
-  });
-  
-  observer.observe(investmentSection);
-}
+            <div class="ip-grid">
+                <div class="ip-category">
+                    <h4>🔧 Custom Hardware Designs</h4>
+                    <ul>
+                        <li>Proprietary PCB Layouts</li>
+                        <li>Custom Enclosure Engineering</li>
+                        <li>Sensor Integration Modules</li>
+                        <li>Mechanical Assemblies</li>
+                    </ul>
+                </div>
+                <div class="ip-category">
+                    <h4>💻 Complete Software Stack</h4>
+                    <ul>
+                        <li>AI Model Architectures</li>
+                        <li>Edge Computing Framework</li>
+                        <li>Cloud Backend</li>
+                        <li>Mobile/Web Applications</li>
+                    </ul>
+                </div>
+                <div class="ip-category">
+                    <h4>⚙️ Proprietary Firmware</h4>
+                    <ul>
+                        <li>Real-time Operating Systems</li>
+                        <li>Device Drivers</li>
+                        <li>Calibration Software</li>
+                        <li>Security Frameworks</li>
+                    </ul>
+                </div>
+                <div class="ip-category">
+                    <h4>🛡️ Zero Dependencies</h4>
+                    <ul>
+                        <li>No License Fees</li>
+                        <li>Full Source Code</li>
+                        <li>Unlimited Deployment</li>
+                        <li>Future Modifications</li>
+                    </ul>
+                </div>
+            </div>
 
-// Enhanced smooth scrolling function
-function smoothScrollTo(target, duration = 800) {
-  const targetElement = document.querySelector(target);
-  if (!targetElement) return;
-  
-  const navHeight = document.querySelector('.navbar').offsetHeight;
-  const targetPosition = targetElement.offsetTop - navHeight - 20;
-  const startPosition = window.pageYOffset;
-  const distance = targetPosition - startPosition;
-  let startTime = null;
-  
-  function ease(t, b, c, d) {
-    t /= d / 2;
-    if (t < 1) return c / 2 * t * t + b;
-    t--;
-    return -c / 2 * (t * (t - 2) - 1) + b;
-  }
-  
-  function animation(currentTime) {
-    if (startTime === null) startTime = currentTime;
-    const timeElapsed = currentTime - startTime;
-    const run = ease(timeElapsed, startPosition, distance, duration);
-    window.scrollTo(0, run);
-    if (timeElapsed < duration) requestAnimationFrame(animation);
-  }
-  
-  requestAnimationFrame(animation);
-}
+            <div class="ip-benefits">
+                <h3>Market Exclusivity & Investment Protection</h3>
+                <div class="exclusivity-grid">
+                    <div class="exclusivity-item">
+                        <h5>Competitive Moat Creation</h5>
+                        <p>Position as the sole owner of advanced AI inspection technology in the GCC region</p>
+                    </div>
+                    <div class="exclusivity-item">
+                        <h5>Revenue Stream Diversification</h5>
+                        <p>Generate passive income through technology licensing to non-competing markets</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-// Keyboard navigation support (updated with team options)
-function initKeyboardNavigation() {
-  document.addEventListener('keydown', (e) => {
-    // Only trigger if no input is focused
-    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
-      return;
-    }
-    
-    switch(e.key.toLowerCase()) {
-      case 'h':
-        smoothScrollTo('#hero');
-        break;
-      case 'b':
-        smoothScrollTo('#benefits');
-        break;
-      case 'i':
-        smoothScrollTo('#ip-ownership');
-        break;
-      case 't':
-        smoothScrollTo('#technical');
-        break;
-      case 'g':
-        smoothScrollTo('#gcc');
-        break;
-      case 'v':
-        smoothScrollTo('#investment');
-        break;
-      case 'o':
-        smoothScrollTo('#team-options');
-        break;
-      case 'c':
-        smoothScrollTo('#cta');
-        break;
-    }
-  });
-}
+    <!-- Technical Solutions -->
+    <section id="technical" class="technical-section">
+        <div class="container">
+            <h2 class="section-title">Advanced Technical Solutions</h2>
+            
+            <div class="phases-container">
+                <!-- Phase 1 -->
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <h3>Phase 1: Damage Detection & Documentation System</h3>
+                        <div class="phase-stats">
+                            <span class="phase-hours">980 Hours</span>
+                            <span class="phase-milestones">8 Milestones</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <p>State-of-the-art computer vision with YOLOv8 neural networks optimized for edge computing. Captures, analyzes, and documents every surface defect ≥5mm with 90%+ accuracy under all GCC lighting conditions.</p>
+                        
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <h5>Edge AI Processing</h5>
+                                <p>NVIDIA Jetson Orin Nano (15W fanless operation, -25°C to +85°C)</p>
+                            </div>
+                            <div class="tech-item">
+                                <h5>Vision System</h5>
+                                <p>4× 12MP Sony IMX477 global shutter cameras with polarized filters</p>
+                            </div>
+                            <div class="tech-item">
+                                <h5>Lighting Control</h5>
+                                <p>Adaptive LED arrays with anti-glare compensation for Gulf sun conditions</p>
+                            </div>
+                            <div class="tech-item">
+                                <h5>Storage Architecture</h5>
+                                <p>Redundant local NAS + encrypted cloud backup with 99.9% uptime SLA</p>
+                            </div>
+                        </div>
 
-// Team options section specific animations
-function initTeamOptionsAnimations() {
-  const teamOptionsSection = document.querySelector('.team-options-section');
-  let teamOptionsAnimated = false;
-  
-  if (!teamOptionsSection) return;
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !teamOptionsAnimated) {
-        teamOptionsAnimated = true;
-        
-        // Animate team option cards with stagger effect
-        const cards = teamOptionsSection.querySelectorAll('.team-option-card');
-        cards.forEach((card, index) => {
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0) scale(1)';
-          }, index * 200);
-        });
-        
-        // Animate benefit badges
-        setTimeout(() => {
-          const badges = teamOptionsSection.querySelectorAll('.benefit-badge');
-          badges.forEach((badge, index) => {
-            setTimeout(() => {
-              badge.style.opacity = '1';
-              badge.style.transform = 'translateY(0) scale(1)';
-            }, index * 100);
-          });
-        }, 600);
-      }
-    });
-  }, {
-    threshold: 0.2
-  });
-  
-  // Set initial styles for animation
-  const cards = teamOptionsSection.querySelectorAll('.team-option-card');
-  cards.forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(50px) scale(0.9)';
-    card.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-  });
-  
-  const badges = teamOptionsSection.querySelectorAll('.benefit-badge');
-  badges.forEach(badge => {
-    badge.style.opacity = '0';
-    badge.style.transform = 'translateY(20px) scale(0.8)';
-    badge.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-  });
-  
-  observer.observe(teamOptionsSection);
-}
+                        <div class="milestones-toggle" onclick="toggleMilestones('phase1')">
+                            <span>View Implementation Milestones</span>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div id="phase1-milestones" class="milestones-content">
+                            <div class="milestone-item">
+                                <span class="milestone-number">1</span>
+                                <div>
+                                    <h6>System Architecture & Design</h6>
+                                    <p>120 hours - Hardware architecture, software planning, GCC environmental analysis</p>
+                                </div>
+                            </div>
+                            <div class="milestone-item">
+                                <span class="milestone-number">2</span>
+                                <div>
+                                    <h6>AI Model Development & Training</h6>
+                                    <p>180 hours - YOLOv8 customization, dataset collection, GCC-specific training</p>
+                                </div>
+                            </div>
+                            <div class="milestone-item">
+                                <span class="milestone-number">3</span>
+                                <div>
+                                    <h6>Hardware Procurement & Assembly</h6>
+                                    <p>96 hours - Component sourcing, calibration, environmental testing</p>
+                                </div>
+                            </div>
+                            <div class="milestone-item">
+                                <span class="milestone-number">4</span>
+                                <div>
+                                    <h6>Edge Software Development</h6>
+                                    <p>160 hours - Real-time inference, camera sync, performance optimization</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-// Contact info animation
-function initContactInfoAnimation() {
-  const contactInfo = document.querySelector('.contact-info');
-  
-  if (!contactInfo) return;
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // Add subtle pulse animation to contact info
-        contactInfo.style.animation = 'contactPulse 2s ease-in-out';
-        
-        // Animate contact items with stagger
-        const contactItems = contactInfo.querySelectorAll('.contact-item');
-        contactItems.forEach((item, index) => {
-          setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateX(0)';
-          }, index * 150);
-        });
-      }
-    });
-  }, {
-    threshold: 0.3
-  });
-  
-  // Set initial styles
-  const contactItems = contactInfo.querySelectorAll('.contact-item');
-  contactItems.forEach(item => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateX(-20px)';
-    item.style.transition = 'all 0.5s ease';
-  });
-  
-  observer.observe(contactInfo);
-}
+                <!-- Phase 2 -->
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <h3>Phase 2: Intelligent Cleaning & Dirt Detection System</h3>
+                        <div class="phase-stats">
+                            <span class="phase-hours">720 Hours</span>
+                            <span class="phase-milestones">7 Milestones</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <p>Advanced sensor fusion combining HD visual analysis with LiDAR depth mapping. Automatically adjusts chemical dosage, water pressure, and cleaning duration based on real-time contamination analysis.</p>
+                        
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <h5>Visual Analysis</h5>
+                                <p>4× 5MP global shutter cameras with 0.3mm/pixel resolution</p>
+                            </div>
+                            <div class="tech-item">
+                                <h5>3D Mapping</h5>
+                                <p>128-line solid-state LiDAR for crust thickness measurement</p>
+                            </div>
+                            <div class="tech-item">
+                                <h5>Spectral Analysis</h5>
+                                <p>NIR sensors detect oil films invisible to human eye</p>
+                            </div>
+                            <div class="tech-item">
+                                <h5>Chemical Control</h5>
+                                <p>Modbus-TCP integration with precision dosing pumps</p>
+                            </div>
+                        </div>
 
-// Add CSS animation for contact pulse effect
-function addContactPulseAnimation() {
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes contactPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
-    }
-  `;
-  document.head.appendChild(style);
-}
+                        <div class="milestones-toggle" onclick="toggleMilestones('phase2')">
+                            <span>View Implementation Milestones</span>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div id="phase2-milestones" class="milestones-content">
+                            <div class="milestone-item">
+                                <span class="milestone-number">9</span>
+                                <div>
+                                    <h6>Sensor Integration Planning</h6>
+                                    <p>96 hours - LiDAR integration, calibration protocols, chemical dosing design</p>
+                                </div>
+                            </div>
+                            <div class="milestone-item">
+                                <span class="milestone-number">10</span>
+                                <div>
+                                    <h6>Computer Vision Development</h6>
+                                    <p>144 hours - Dirt classification, texture analysis, real-time segmentation</p>
+                                </div>
+                            </div>
+                            <div class="milestone-item">
+                                <span class="milestone-number">11</span>
+                                <div>
+                                    <h6>Chemical Control System</h6>
+                                    <p>120 hours - PLC programming, safety interlocks, proportional control</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-// Initialize all functionality when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Core functionality
-  initNavigation();
-  initCounters();
-  initMilestoneToggles();
-  initScrollAnimations();
-  initHeroCTA();
-  initCTAButtons();
-  
-  // Enhanced effects
-  initParallaxEffect();
-  initCardHoverEffects();
-  initInvestmentCounters();
-  initKeyboardNavigation();
-  
-  // New team options functionality
-  initTeamOptionsInteraction();
-  initTeamOptionsAnimations();
-  initContactInfoAnimation();
-  addContactPulseAnimation();
-  
-  // Scroll event listener for progress bar and navigation
-  let scrollTimeout;
-  window.addEventListener('scroll', () => {
-    // Throttle scroll events for better performance
-    if (scrollTimeout) {
-      clearTimeout(scrollTimeout);
-    }
-    
-    scrollTimeout = setTimeout(() => {
-      updateProgressAndNav();
-    }, 10);
-  });
-  
-  // Initial call to set correct active state
-  updateProgressAndNav();
-});
+    <!-- GCC Optimization -->
+    <section id="gcc" class="gcc-section">
+        <div class="container">
+            <h2 class="section-title">GCC-Specific Engineering Excellence</h2>
+            <div class="gcc-grid">
+                <div class="gcc-feature">
+                    <h4>🌡️ Extreme Temperature Management</h4>
+                    <ul>
+                        <li><strong>60°C Continuous Operation:</strong> All electronics rated for extreme heat</li>
+                        <li><strong>Thermal Design:</strong> Passive heat sinks with optional Peltier cooling</li>
+                        <li><strong>Expansion Compensation:</strong> 40°C daily temperature swing handling</li>
+                    </ul>
+                </div>
+                <div class="gcc-feature">
+                    <h4>🏜️ Dust & Sand Mitigation</h4>
+                    <ul>
+                        <li><strong>IP67 Protection:</strong> Complete dust and water ingress protection</li>
+                        <li><strong>Self-Cleaning Optics:</strong> Automated lens wipers and compressed air</li>
+                        <li><strong>Vibration Isolation:</strong> Sand storm protection for sensitive components</li>
+                    </ul>
+                </div>
+                <div class="gcc-feature">
+                    <h4>💧 Humidity & Corrosion Protection</h4>
+                    <ul>
+                        <li><strong>Marine-Grade Materials:</strong> 316L stainless steel construction</li>
+                        <li><strong>Conformal Coatings:</strong> PCB protection against salt air corrosion</li>
+                        <li><strong>Desiccant Systems:</strong> Active moisture control in sealed enclosures</li>
+                    </ul>
+                </div>
+                <div class="gcc-feature">
+                    <h4>⚡ Power & Connectivity Resilience</h4>
+                    <ul>
+                        <li><strong>UPS Integration:</strong> 30-minute battery backup for graceful shutdown</li>
+                        <li><strong>Dual Internet:</strong> Primary fiber + 5G backup for 99.9% connectivity</li>
+                        <li><strong>Power Quality:</strong> Line conditioning against voltage fluctuations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-// Resize handler for responsive adjustments
-window.addEventListener('resize', () => {
-  // Recalculate any size-dependent animations or positions
-  updateProgressAndNav();
-});
+    <!-- Investment & ROI -->
+    <section id="investment" class="investment-section">
+        <div class="container">
+            <h2 class="section-title">Investment & Returns</h2>
+            
+            <div class="investment-overview">
+                <div class="investment-stat">
+                    <span class="investment-number">2,260</span>
+                    <span class="investment-label">Total Engineering Hours</span>
+                </div>
+                <div class="investment-stat">
+                    <span class="investment-number">12</span>
+                    <span class="investment-label">Expert Team Members</span>
+                </div>
+                <div class="investment-stat">
+                    <span class="investment-number">18</span>
+                    <span class="investment-label">Month ROI Payback</span>
+                </div>
+                <div class="investment-stat">
+                    <span class="investment-number">99.5%</span>
+                    <span class="investment-label">System Uptime</span>
+                </div>
+            </div>
 
-// Export functions for global access
-window.toggleMilestones = toggleMilestones;
-window.smoothScrollTo = smoothScrollTo;
+            <div class="team-composition">
+                <h3>Expert Team Composition</h3>
+                <div class="team-grid">
+                    <div class="team-role">
+                        <span class="role-count">3</span>
+                        <span class="role-name">Senior AI/ML Engineers</span>
+                    </div>
+                    <div class="team-role">
+                        <span class="role-count">2</span>
+                        <span class="role-name">Embedded Systems Engineers</span>
+                    </div>
+                    <div class="team-role">
+                        <span class="role-count">2</span>
+                        <span class="role-name">Cloud Architecture Engineers</span>
+                    </div>
+                    <div class="team-role">
+                        <span class="role-count">2</span>
+                        <span class="role-name">Mechanical/Environmental Engineers</span>
+                    </div>
+                    <div class="team-role">
+                        <span class="role-count">2</span>
+                        <span class="role-name">Quality Assurance Engineers</span>
+                    </div>
+                    <div class="team-role">
+                        <span class="role-count">1</span>
+                        <span class="role-name">IP & Legal Documentation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-metrics">
+                <h3>Success Metrics</h3>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <h5>ROI Achievement</h5>
+                        <p>18-month payback through cost savings and premium service positioning</p>
+                    </div>
+                    <div class="metric-item">
+                        <h5>Customer Satisfaction</h5>
+                        <p>95%+ approval rating with transparent, verifiable service quality</p>
+                    </div>
+                    <div class="metric-item">
+                        <h5>Operational Excellence</h5>
+                        <p>50%+ reduction in service disputes and insurance claims</p>
+                    </div>
+                    <div class="metric-item">
+                        <h5>Market Leadership</h5>
+                        <p>Position as the most technologically advanced service center in the region</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Augmentation Options -->
+    <section id="team-options" class="team-options-section">
+        <div class="container">
+            <h2 class="section-title">Flexible Engagement Models</h2>
+            <p class="section-subtitle">Choose Your Preferred Development Approach</p>
+            
+            <div class="team-options-grid">
+                <!-- Hourly-Based Engagement -->
+                <div class="team-option-card">
+                    <div class="option-header">
+                        <div class="option-icon">⏱️</div>
+                        <h3>Hourly-Based Engagement</h3>
+                        <p class="option-description">Flexible development according to project scope</p>
+                    </div>
+                    
+                    <div class="option-features">
+                        <ul>
+                            <li>2,260 Total Development Hours</li>
+                            <li>Pay-As-You-Go Model</li>
+                            <li>Flexible Start & Scaling</li>
+                            <li>Complete Feature Development</li>
+                            <li>Future Enhancements Included</li>
+                            <li>Full IP Transfer Upon Completion</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="option-ideal">
+                        <h5>Ideal For:</h5>
+                        <p>Perfect for budget-conscious clients wanting flexibility</p>
+                    </div>
+                </div>
+
+                <!-- Permanent Team Augmentation -->
+                <div class="team-option-card">
+                    <div class="option-header">
+                        <div class="option-icon">👥</div>
+                        <h3>Permanent Team Augmentation</h3>
+                        <p class="option-description">Dedicated development team integration</p>
+                    </div>
+                    
+                    <div class="option-features">
+                        <ul>
+                            <li>Dedicated Development Team</li>
+                            <li>Long-Term Partnership Model</li>
+                            <li>Continuous Development Support</li>
+                            <li>Ongoing Feature Additions</li>
+                            <li>Direct Team Collaboration</li>
+                            <li>Complete Technology Ownership</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="option-ideal">
+                        <h5>Ideal For:</h5>
+                        <p>Ideal for long-term technology partnership</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-options-benefits">
+                <h3>Both Options Guarantee:</h3>
+                <div class="benefits-row">
+                    <div class="benefit-badge">
+                        <span class="badge-icon">🏆</span>
+                        <span>Complete IP Ownership</span>
+                    </div>
+                    <div class="benefit-badge">
+                        <span class="badge-icon">🔧</span>
+                        <span>Full Source Code Access</span>
+                    </div>
+                    <div class="benefit-badge">
+                        <span class="badge-icon">🚀</span>
+                        <span>Future Modification Rights</span>
+                    </div>
+                    <div class="benefit-badge">
+                        <span class="badge-icon">💼</span>
+                        <span>Professional Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Your Investment in Innovation = Your Exclusive Market Dominance</h2>
+                <p>This comprehensive solution represents the future of vehicle service operations, combining cutting-edge AI technology with practical engineering excellence tailored specifically for the GCC market.</p>
+                <p class="cta-emphasis">With full IP ownership, you're not just implementing a solution; you're acquiring a proprietary technology platform that positions your business as the undisputed leader in AI-powered vehicle services across the entire GCC region.</p>
+                
+                <div class="contact-info">
+                    <h3>Project Leadership</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <strong>Inaamul Haq Mansoor</strong>
+                        </div>
+                        <div class="contact-item">
+                            Digital Solutions Architect
+                        </div>
+                        <div class="contact-item">
+                            Head of Technology IoT
+                        </div>
+                        <div class="contact-item">
+                            OLIVE TS
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <button class="cta-button primary">Schedule Consultation</button>
+                    <button class="cta-button secondary">Download Full Proposal</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
