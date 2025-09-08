@@ -161,7 +161,7 @@ function initMilestoneToggles() {
 
 // Intersection Observer for scroll animations
 function initScrollAnimations() {
-  const animateOnScroll = document.querySelectorAll('.benefit-card, .ip-category, .gcc-feature, .investment-stat, .metric-item, .contact-item');
+  const animateOnScroll = document.querySelectorAll('.benefit-card, .ip-category, .gcc-feature, .investment-stat, .metric-item, .team-option-card, .benefit-badge');
   
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -202,6 +202,75 @@ function initHeroCTA() {
   }
 }
 
+// CTA buttons functionality
+function initCTAButtons() {
+  const ctaButtons = document.querySelectorAll('.cta-button');
+  
+  ctaButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const buttonText = button.textContent.trim();
+      
+      if (buttonText.includes('Schedule Consultation')) {
+        e.preventDefault();
+        // Add visual feedback
+        const originalText = button.textContent;
+        button.textContent = 'Scheduling...';
+        button.style.opacity = '0.7';
+        
+        setTimeout(() => {
+          alert('Thank you for your interest! A consultation representative will contact you within 24 hours.');
+          button.textContent = originalText;
+          button.style.opacity = '1';
+        }, 1000);
+        
+      } else if (buttonText.includes('Download Full Proposal')) {
+        e.preventDefault();
+        // Add visual feedback
+        const originalText = button.textContent;
+        button.textContent = 'Downloading...';
+        button.style.opacity = '0.7';
+        
+        setTimeout(() => {
+          alert('Full proposal PDF download initiated. Please check your downloads folder.');
+          button.textContent = originalText;
+          button.style.opacity = '1';
+        }, 1000);
+      }
+    });
+  });
+}
+
+// Team options cards interaction
+function initTeamOptionsInteraction() {
+  const teamOptionCards = document.querySelectorAll('.team-option-card');
+  
+  teamOptionCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      // Add subtle glow effect on hover
+      card.style.boxShadow = '0 20px 40px rgba(0, 212, 255, 0.3)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      // Remove glow effect
+      card.style.boxShadow = '';
+    });
+    
+    // Add click interaction for better mobile experience
+    card.addEventListener('click', () => {
+      // Toggle active state for mobile users
+      const isActive = card.classList.contains('active');
+      
+      // Remove active from all cards
+      teamOptionCards.forEach(c => c.classList.remove('active'));
+      
+      // Add active to clicked card if it wasn't already active
+      if (!isActive) {
+        card.classList.add('active');
+      }
+    });
+  });
+}
+
 // Parallax effect for hero background
 function initParallaxEffect() {
   const heroBackground = document.querySelector('.hero-background');
@@ -217,7 +286,7 @@ function initParallaxEffect() {
 
 // Enhanced card hover effects
 function initCardHoverEffects() {
-  const cards = document.querySelectorAll('.benefit-card, .gcc-feature, .investment-stat, .contact-item');
+  const cards = document.querySelectorAll('.benefit-card, .gcc-feature, .investment-stat');
   
   cards.forEach(card => {
     card.addEventListener('mouseenter', () => {
@@ -313,7 +382,7 @@ function smoothScrollTo(target, duration = 800) {
   requestAnimationFrame(animation);
 }
 
-// Keyboard navigation support
+// Keyboard navigation support (updated with team options)
 function initKeyboardNavigation() {
   document.addEventListener('keydown', (e) => {
     // Only trigger if no input is focused
@@ -340,6 +409,9 @@ function initKeyboardNavigation() {
       case 'v':
         smoothScrollTo('#investment');
         break;
+      case 'o':
+        smoothScrollTo('#team-options');
+        break;
       case 'c':
         smoothScrollTo('#cta');
         break;
@@ -347,89 +419,109 @@ function initKeyboardNavigation() {
   });
 }
 
-// Contact item interaction effects
-function initContactInteractions() {
-  const contactItems = document.querySelectorAll('.contact-item');
+// Team options section specific animations
+function initTeamOptionsAnimations() {
+  const teamOptionsSection = document.querySelector('.team-options-section');
+  let teamOptionsAnimated = false;
   
-  contactItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const title = item.querySelector('h5').textContent;
-      
-      // Add visual feedback
-      const originalBorder = item.style.borderColor;
-      item.style.borderColor = 'var(--automotive-cyan-accent)';
-      item.style.transform = 'scale(0.98)';
-      
-      setTimeout(() => {
-        item.style.borderColor = originalBorder;
-        item.style.transform = 'translateY(-5px)';
+  if (!teamOptionsSection) return;
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !teamOptionsAnimated) {
+        teamOptionsAnimated = true;
         
-        // Show contextual message
-        showContactMessage(title);
-      }, 150);
+        // Animate team option cards with stagger effect
+        const cards = teamOptionsSection.querySelectorAll('.team-option-card');
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0) scale(1)';
+          }, index * 200);
+        });
+        
+        // Animate benefit badges
+        setTimeout(() => {
+          const badges = teamOptionsSection.querySelectorAll('.benefit-badge');
+          badges.forEach((badge, index) => {
+            setTimeout(() => {
+              badge.style.opacity = '1';
+              badge.style.transform = 'translateY(0) scale(1)';
+            }, index * 100);
+          });
+        }, 600);
+      }
     });
+  }, {
+    threshold: 0.2
   });
+  
+  // Set initial styles for animation
+  const cards = teamOptionsSection.querySelectorAll('.team-option-card');
+  cards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(50px) scale(0.9)';
+    card.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+  });
+  
+  const badges = teamOptionsSection.querySelectorAll('.benefit-badge');
+  badges.forEach(badge => {
+    badge.style.opacity = '0';
+    badge.style.transform = 'translateY(20px) scale(0.8)';
+    badge.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+  });
+  
+  observer.observe(teamOptionsSection);
 }
 
-// Show contact message based on clicked item
-function showContactMessage(contactType) {
-  let message = '';
+// Contact info animation
+function initContactInfoAnimation() {
+  const contactInfo = document.querySelector('.contact-info');
   
-  switch(contactType) {
-    case 'Technical Consultation':
-      message = 'Our AI and automation specialists are ready to discuss the technical aspects of implementing this solution for your business.';
-      break;
-    case 'Investment Planning':
-      message = 'Let our team provide you with detailed ROI projections and implementation timelines tailored to your specific requirements.';
-      break;
-    case 'Market Positioning':
-      message = 'Discover how this technology can position your business as the market leader in AI-powered vehicle services.';
-      break;
-    default:
-      message = 'Thank you for your interest. Our team will be in touch to discuss your specific needs.';
-  }
+  if (!contactInfo) return;
   
-  // Create and show temporary message overlay
-  const messageOverlay = document.createElement('div');
-  messageOverlay.style.cssText = `
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(26, 26, 46, 0.95);
-    color: white;
-    padding: 30px;
-    border-radius: 12px;
-    border: 2px solid var(--automotive-cyan-accent);
-    max-width: 500px;
-    text-align: center;
-    z-index: 10000;
-    box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
-    backdrop-filter: blur(10px);
-  `;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Add subtle pulse animation to contact info
+        contactInfo.style.animation = 'contactPulse 2s ease-in-out';
+        
+        // Animate contact items with stagger
+        const contactItems = contactInfo.querySelectorAll('.contact-item');
+        contactItems.forEach((item, index) => {
+          setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateX(0)';
+          }, index * 150);
+        });
+      }
+    });
+  }, {
+    threshold: 0.3
+  });
   
-  messageOverlay.innerHTML = `
-    <h4 style="color: var(--automotive-cyan-accent); margin-bottom: 15px;">${contactType}</h4>
-    <p style="margin-bottom: 20px; line-height: 1.6;">${message}</p>
-    <button onclick="this.parentElement.remove()" style="
-      background: linear-gradient(135deg, var(--automotive-cyan-accent), var(--automotive-orange-accent));
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    ">Close</button>
-  `;
+  // Set initial styles
+  const contactItems = contactInfo.querySelectorAll('.contact-item');
+  contactItems.forEach(item => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(-20px)';
+    item.style.transition = 'all 0.5s ease';
+  });
   
-  document.body.appendChild(messageOverlay);
-  
-  // Auto-remove after 5 seconds
-  setTimeout(() => {
-    if (messageOverlay.parentElement) {
-      messageOverlay.remove();
+  observer.observe(contactInfo);
+}
+
+// Add CSS animation for contact pulse effect
+function addContactPulseAnimation() {
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes contactPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
     }
-  }, 5000);
+  `;
+  document.head.appendChild(style);
 }
 
 // Initialize all functionality when DOM is loaded
@@ -440,13 +532,19 @@ document.addEventListener('DOMContentLoaded', () => {
   initMilestoneToggles();
   initScrollAnimations();
   initHeroCTA();
+  initCTAButtons();
   
   // Enhanced effects
   initParallaxEffect();
   initCardHoverEffects();
   initInvestmentCounters();
   initKeyboardNavigation();
-  initContactInteractions();
+  
+  // New team options functionality
+  initTeamOptionsInteraction();
+  initTeamOptionsAnimations();
+  initContactInfoAnimation();
+  addContactPulseAnimation();
   
   // Scroll event listener for progress bar and navigation
   let scrollTimeout;
